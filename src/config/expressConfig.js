@@ -1,7 +1,8 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
-const jwt = require('./middleware/JWT');
+const jwt = require('../utils/Middleware/JWTValidation');
+const authRoutes = require('../routes/AuthRoutes');
 
 const configureExpress = (app) => {
 
@@ -21,8 +22,8 @@ const configureExpress = (app) => {
     app.use(bodyParser.urlencoded({ extended: true }));
 
 
-    
-    app.use(jwt.validateJWT)
+    app.use('/auth',authRoutes)
+    app.use(jwt.accessTokenValidation)
 
 };
 
