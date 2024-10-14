@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const jwt = require('../utils/Middleware/JWTValidation');
 const authRoutes = require('../routes/AuthRoutes');
+const institutionRoutes = require('../routes/InstitutionRoutes');
 
 const configureExpress = (app) => {
 
@@ -24,6 +25,7 @@ const configureExpress = (app) => {
 
     app.use('/auth',authRoutes)
     app.use(jwt.accessTokenValidation)
+    app.use('/institution',institutionRoutes )
 
 };
 

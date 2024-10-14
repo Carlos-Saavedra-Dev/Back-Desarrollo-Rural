@@ -1,7 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-//TODO We have to check it really includes all the necessary atributes
 function generateAccessToken(user) {
     return jwt.sign(
         { userId: user.id_user, userRol: user.Rol.name }, 
