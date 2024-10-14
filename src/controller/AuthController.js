@@ -11,21 +11,29 @@ async function login (req,res) {
             return res.status(400).json({message: "Missing parameters"});
         }
 
-        const passwordHash = authService.encryptPassword(password);
-
-        const authUser = authService.fetchUser(username, passwordHash);
+        const authUser = await authService.fetchUser(username);
 
         if(!authUser) 
-        {
-            return res.status(401).json({message: "Invalid credentials"});
-        }
+            {
+                return res.status(401).json({message: "Invalid credentials"});
+            }
 
+            console.log(password, authUser.password);
+
+        const isMatch = await authService.compareHash(password, authUser.password);
+
+
+        if(!isMatch) 
+            {
+                return res.status(401).json({message: "Invalid credentials"});
+            }
+
+        
         const refreshToken = JWTService.generateRefreshToken(authUser);
-        const expiresAt = new Date(Date.now() + 7);
-        await authService.updateAuth(refreshToken,expiresAt,authService.id_user)
-        const accessToken = JWTService.generateAccessToken(authService);
+        await authService.updateAuth(refreshToken,authUser.id_user)
+        const accessToken = JWTService.generateAccessToken(authUser);
 
-        return res.status(200).json({accessToken, refreshToken})
+        return res.status(200).json({data:{accessToken, refreshToken}})
 
     } catch (error) {
         

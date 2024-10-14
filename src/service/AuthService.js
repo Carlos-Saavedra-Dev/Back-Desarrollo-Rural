@@ -1,28 +1,24 @@
 const bcrypt = require('bcrypt');
 const authRepository = require('../repository/AuthRepository');
-function encryptPassword (password)
-{
-    const rounds = 5;
-
-    bcrypt.hash(password,rounds,(err,hash) =>
-    {
-        if (err)
-        {
-            throw err;
-        }
-
-        return hash;
-    })
+async function compareHash(password,hash) {
+    try {
+        const isMatch = await bcrypt.compare(password, hash);
+        return isMatch;
+    } catch (err) {
+        throw err; 
+    }
 }
 
-async function fetchUser (username, password)
+async function fetchUser (username)
 {
-    return await authRepository.fetchUser(username, password);
+    return await authRepository.fetchUser(username);
 }
 
-async function updateAuth(refreshToken, expiresAt,userId)
+async function updateAuth(refreshToken,userId)
 {
-    return await authRepository.updateAuth(refreshToken, expiresAt,userId);
+    const expiresAt = new Date(Date.now() + 7);
+    const createdAt = new Date();
+    return await authRepository.updateAuth(refreshToken, createdAt, expiresAt,userId);
 }
 
-module.exports = {encryptPassword,fetchUser,updateAuth}
+module.exports = {compareHash,fetchUser,updateAuth}
