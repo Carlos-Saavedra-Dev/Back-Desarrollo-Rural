@@ -18,7 +18,6 @@ async function login (req,res) {
                 return res.status(401).json({message: "Invalid credentials"});
             }
 
-            console.log(password, authUser.password);
 
         const isMatch = await authService.compareHash(password, authUser.password);
 
@@ -28,10 +27,14 @@ async function login (req,res) {
                 return res.status(401).json({message: "Invalid credentials"});
             }
 
-        
-        const refreshToken = JWTService.generateRefreshToken(authUser);
+        const tokenUser = 
+        {
+            userId: authUser.id_user,
+            rol: authUser.Rol.name
+        }
+        const refreshToken = JWTService.generateRefreshToken(tokenUser);
         await authService.updateAuth(refreshToken,authUser.id_user)
-        const accessToken = JWTService.generateAccessToken(authUser);
+        const accessToken = JWTService.generateAccessToken(tokenUser);
 
         return res.status(200).json({data:{accessToken, refreshToken}})
 

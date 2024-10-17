@@ -14,10 +14,10 @@ async function createInstitution (req, res)
             userId,name,address,email,phone
         };
 
-        await institutionService.createInstitution(institution);
+        const institutionAdded = await institutionService.createInstitution(institution);
 
-        institution.userId = undefined;
-        return res.status(201).json({data:institution});
+        institutionAdded.created_by = undefined;
+        return res.status(201).json({data:institutionAdded});
 
     } catch (error) {
         console.log(error.message);
@@ -25,5 +25,37 @@ async function createInstitution (req, res)
     }
 }
 
+async function deleteInstitution(req,res)
+{
+    try {
+        const {institutionId} = req.body;
 
-module.exports = {createInstitution};
+        if (!institutionId)
+        {
+            return res.status(400).json({data:{message : "Parameters missing"}});
+        }
+
+        await institutionService.deleteInstitution(institutionId);
+
+        return res.status(204).json();
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({message: error.message});
+    }
+}
+
+async function getInstitutions (req, res) 
+{
+    try {
+        
+        const institutions = await institutionService.getInstitutions();
+
+        return res.status(200).json({data: institutions});
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({message: error.message});
+    }
+}
+
+
+module.exports = {createInstitution,deleteInstitution,getInstitutions};

@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const jwt = require('../utils/Middleware/JWTValidation');
 const authRoutes = require('../routes/AuthRoutes');
 const institutionRoutes = require('../routes/InstitutionRoutes');
+const eventRoutes = require('../routes/EventRoutes');
 
 const configureExpress = (app) => {
 
@@ -24,8 +25,9 @@ const configureExpress = (app) => {
 
 
     app.use('/auth',authRoutes)
-    app.use(jwt.accessTokenValidation)
     app.use('/institution',institutionRoutes )
+    app.use('/event',eventRoutes)
+    app.use(jwt.accessTokenValidation)
 
 };
 
