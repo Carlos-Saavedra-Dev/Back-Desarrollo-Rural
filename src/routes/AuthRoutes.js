@@ -5,5 +5,7 @@ const authController = require('../controller/AuthController');
 const router = express.Router();
 
 
-router.get('/accessToken',JWT.refreshTokenValidation,JWTController.getAccessToken);
-router.post('/login',authController.login)
+router.get('/token',JWT.refreshTokenValidation,JWTController.getAccessToken);
+router.post('/login',authController.login);
+
+module.exports = router;
