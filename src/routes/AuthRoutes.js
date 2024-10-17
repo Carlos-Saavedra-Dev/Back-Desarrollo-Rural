@@ -6,6 +6,6 @@ const router = express.Router();
 
 
 router.get('/token',JWT.refreshTokenValidation,JWTController.getAccessToken);
-router.post('/login',authController.login)
+router.post('/login',authController.login);
 
 module.exports = router;

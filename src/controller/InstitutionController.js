@@ -28,7 +28,7 @@ async function createInstitution (req, res)
 async function deleteInstitution(req,res)
 {
     try {
-        const {institutionId} = req.body;
+        const institutionId = req.body.id_institution;
 
         if (!institutionId)
         {
