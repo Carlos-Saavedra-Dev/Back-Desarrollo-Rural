@@ -37,4 +37,5 @@ const deleteImageFromDB = async (url) => {
     }
 };
 
+
 module.exports = {uploadMedia,deleteImage,deleteImageFromDB}

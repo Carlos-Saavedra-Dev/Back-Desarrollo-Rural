@@ -78,5 +78,24 @@ async function deleteEvent(eventId)
     await eventRepository.deleteEvent(eventId);
 }
 
+async function getEvent(institutionId)
+{
+    const incompleteEvents = await eventRepository.getEventByInstitutionId(institutionId);
 
-module.exports = {uploadImages,createEvent,updateEvent,deleteImages,deleteEvent}
+
+    const eventsPromises = incompleteEvents.map(async event => 
+    {
+        const eventUrls = await eventRepository.getUrls(event.id_event);
+
+        const urls = eventUrls.map(event => event.url);
+
+        return  {...event, urls};
+    });
+
+    const events = await Promise.all(eventsPromises);
+
+    return events;
+}
+
+
+module.exports = {uploadImages,createEvent,updateEvent,deleteImages,deleteEvent,getEvent}

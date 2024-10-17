@@ -8,9 +8,11 @@ const upload = require('../config/multerConfig');
 router.post('/upload',JWT.accessTokenValidation,
     upload.array('images',3),eventController.createEvent);
 
-router.put('/update',JWT.accessTokenValidation,
+router.put('/',JWT.accessTokenValidation,
     upload.array('images',3),eventController.updateEvent);
 
-router.delete('/delete',JWT.accessTokenValidation,eventController.deleteEvent);
+router.delete('/',JWT.accessTokenValidation,eventController.deleteEvent);
+
+router.get('/',eventController.getEvent);
 
 module.exports = router;

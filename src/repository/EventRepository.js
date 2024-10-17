@@ -91,4 +91,19 @@ const getUrls = async (eventId) =>
     return data;
 }
 
-module.exports = { deleteEvent,uploadImage,createEvent ,updateEvent,getUrls};
+const getEventByInstitutionId = async (institutionId) => {
+
+    const { data, error } = await supabase
+        .from('Event')
+        .select('id_event,title,description,created_at')
+        .eq('id_institution', institutionId)
+
+    if (error) {
+        console.log("Repository: getEventByInstitutionId");
+        throw new Error(error.message);
+    }
+
+    return data;
+}
+
+module.exports = { deleteEvent,uploadImage,createEvent ,updateEvent,getUrls,getEventByInstitutionId};

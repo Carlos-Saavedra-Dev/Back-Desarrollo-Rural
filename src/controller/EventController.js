@@ -66,8 +66,8 @@ async function updateEvent(req, res) {
         }});
 
     } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
+        console.log(error.message);
+        return res.status(500).json({message: error.message});    }
 }
 
 
@@ -82,9 +82,29 @@ async function deleteEvent(req,res)
         return res.status(204).json();
 
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        console.log(error.message);
+        return res.status(500).json({message: error.message});    }
+}
+
+async function getEvent(req, res)
+{
+    try {
+        
+        const institutionId = req.body.id_institution;
+
+        if(!institutionId)
+        {
+            return res.status(404).json({message: "institutionId missing"});
+        }
+
+        const events = await eventService.getEvent(institutionId);
+
+        return res.status(200).json({data: events});
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({message: error.message});
     }
 }
 
-
-module.exports = {createEvent,updateEvent,deleteEvent}
+module.exports = {createEvent,updateEvent,deleteEvent,getEvent}
