@@ -48,7 +48,16 @@ async function getInstitutions (req, res)
 {
     try {
         
-        const institutions = await institutionService.getInstitutions();
+        let institutions = null;
+
+        if (req.user)
+        {
+            const {institution} = req.user;
+            institutions=  await institutionService.getInstitutionById(institution);
+        }
+        else{
+            institutions = await institutionService.getInstitutions();
+        }
 
         return res.status(200).json({data: institutions});
     } catch (error) {

@@ -18,6 +18,22 @@ async function accessTokenValidation(req, res, next) {
     }
 }
 
+async function setOptionalAccessToken(req,res,next) {
+    try {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+
+        if (!token) {
+            return next();
+        }
+
+        const user = await jwt.verify(token, process.env.JWT_SECRET);
+        req.user = user;
+        next();
+    } catch (err) {
+        return res.status(401).json({data:{ message: 'Invalid or expired access token' }});
+    }
+}
 async function refreshTokenValidation(req, res, next) {
     try {
         const refreshToken = req.headers['x-refresh-token'];
@@ -34,4 +50,4 @@ async function refreshTokenValidation(req, res, next) {
     }
 }
 
-module.exports = {refreshTokenValidation,accessTokenValidation}
+module.exports = {refreshTokenValidation,accessTokenValidation,setOptionalAccessToken}

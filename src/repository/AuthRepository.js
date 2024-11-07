@@ -4,7 +4,7 @@ const fetchUser = async (username) =>
 {
     const {error,data} = await supabase
         .from('User')
-        .select('id_user, password, Rol (name)')
+        .select('id_user, password, Rol (name), id_institution')
         .eq('username',username)
     
         if(error)

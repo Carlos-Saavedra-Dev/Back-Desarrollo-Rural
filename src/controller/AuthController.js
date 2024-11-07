@@ -30,7 +30,8 @@ async function login (req,res) {
         const tokenUser = 
         {
             userId: authUser.id_user,
-            rol: authUser.Rol.name
+            rol: authUser.Rol.name,
+            institution: authUser.id_institution,
         }
         const refreshToken = JWTService.generateRefreshToken(tokenUser);
         await authService.updateAuth(refreshToken,authUser.id_user)

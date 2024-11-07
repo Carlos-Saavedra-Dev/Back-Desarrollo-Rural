@@ -6,6 +6,6 @@ const JWT = require('../utils/Middleware/JWTValidation');
 
 router.post('/',JWT.accessTokenValidation,institutionController.createInstitution)
 router.delete('/',JWT.accessTokenValidation,institutionController.deleteInstitution);
-router.get('/',institutionController.getInstitutions)
+router.get('/',JWT.setOptionalAccessToken, institutionController.getInstitutions)
 
 module.exports = router;

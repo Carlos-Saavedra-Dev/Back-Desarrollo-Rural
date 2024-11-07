@@ -12,6 +12,11 @@ async function deleteInstitution (institutionId)
 
 }
 
+async function getInstitutionById (institutionId)
+{
+    const institution = await institutionRepository.getInstitutionById(institutionId);
+    return institution;
+}
 async function getInstitutions () 
 {
 
@@ -22,4 +27,4 @@ async function getInstitutions ()
 }
 
 
-module.exports = {createInstitution,deleteInstitution,getInstitutions}
+module.exports = {createInstitution,deleteInstitution,getInstitutions,getInstitutionById}

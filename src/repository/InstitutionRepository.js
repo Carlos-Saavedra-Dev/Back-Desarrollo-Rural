@@ -52,4 +52,20 @@ async function getInstitutions ()
     return data;
 }
 
-module.exports = {createInstitution,deleteInstitution,getInstitutions};
+async function getInstitutionById(institutionId)
+{
+    const {error,data} = await supabase
+    .from('Institution')
+    .select()
+    .eq('id_institution', institutionId)
+
+    if(error)
+    {
+        console.log("Repository: getInstitutionById");
+        throw new Error(error.message);
+    }
+
+    return data;
+}
+
+module.exports = {createInstitution,deleteInstitution,getInstitutions,getInstitutionById};
